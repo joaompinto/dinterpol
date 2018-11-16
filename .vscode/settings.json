@@ -1,0 +1,6 @@
+{
+    "python.linting.pylintEnabled": false,
+    "cSpell.words": [
+        "dinterpol"
+    ],
+}
