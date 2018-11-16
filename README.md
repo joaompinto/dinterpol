@@ -1,8 +1,12 @@
 # dinterpol
-dinterpol is a python library and a command line utility for data interpolation that supports both scalar and structured types generation.
 
 [![PyPI Version][pypi-v-image]][pypi-v-link]
 [![Build Status][travis-image]][travis-link]
+
+---
+
+dinterpol is a python library and a command line utility for data interpolation that supports both scalar and structured types generation.
+
 
 ## Motivation
 When dealing with structured data types like dictionaries, or data formats like JSON and YAML it can be useful to generate scalar or structured types resulting from the interpolation of multiple input elements. Python3 provides several standard string interpolation mechanisms: [string.Template()], [f-strings] and [str.format()], but because they all return strings, they are not suitable for structured and non string data interpolation.
