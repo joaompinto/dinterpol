@@ -1,6 +1,9 @@
 # dinterpol
 dinterpol is a python library and a command line utility for data interpolation that supports both scalar and structured types generation.
 
+[![PyPI Version][pypi-v-image]][pypi-v-link]
+[![Build Status][travis-image]][travis-link]
+
 ## Motivation
 When dealing with structured data types like dictionaries, or data formats like JSON and YAML it can be useful to generate scalar or structured types resulting from the interpolation of multiple input elements. Python3 provides several standard string interpolation mechanisms: [string.Template()], [f-strings] and [str.format()], but because they all return strings, they are not suitable for structured and non string data interpolation.
 
@@ -34,20 +37,13 @@ Interpolation("Total price is $quantity * product$").render(data)
 Interpolation({ "total": "$quantity * product$"}).render(data)
 { "total": 426 }
 ```
----
 
-[![PyPI Version][pypi-v-image]][pypi-v-link]
-[![Build Status][travis-image]][travis-link]
-[![Windows Build Status][appveyor-image]][appveyor-link]
-[![Coverage Status][codecov-image]][codecov-link]
-[![Landscale Code Health][landscape-image]][landscape-link]
-
-- View the [dinterpol documentation][dinterpol].
 
 ## Code of Conduct
 
 Everyone interacting in the dinterpol project's codebase, issue trackers, chat
 rooms, and mailing lists is expected to follow the [PyPA Code of Conduct].
+
 
 [appveyor-image]: https://img.shields.io/appveyor/ci/d0ugal/mdatapipe/master.svg
 [appveyor-link]: https://ci.appveyor.com/project/d0ugal/mdatapipe
@@ -61,5 +57,4 @@ rooms, and mailing lists is expected to follow the [PyPA Code of Conduct].
 [travis-link]: https://travis-ci.org/mdatapipe/dinterpol
 
 [dinterpol]: https://dinterpol.mdatapipe.org
-
 [PyPA Code of Conduct]: https://www.pypa.io/en/latest/code-of-conduct/
