@@ -16,10 +16,7 @@ When dealing with structured data types like dictionaries, or data formats like 
 [f-strings]: https://docs.python.org/3/reference/lexical_analysis.html#f-strings
 [str.format()]: https://docs.python.org/3/library/stdtypes.html#str.format
 
-Interpolate
-
-An YAML template system that allows you to extend YAML with python code
-Dict, JSON, YAML
+Usage example:
 
 ```python
 from dinterpol import Interpolation
@@ -33,11 +30,11 @@ data = {
 Interpolation("We have $quantity$ $product$(s)").render(data)
 "We have 33 pie(s)"
 
-# python expression for string generation
+# python expression for string generation, expression result concatnated with string
 Interpolation("Total price is $quantity * product$").render(data)
 "Total price is 426"
 
-# python expression for dict generation
+# python expression for dict generation, type inferred directly from expression's eval()
 Interpolation({ "total": "$quantity * product$"}).render(data)
 { "total": 426 }
 ```
