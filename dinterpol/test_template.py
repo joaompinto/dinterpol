@@ -13,6 +13,7 @@ template_test_list = [  # NOQA: W605
     ({"Total": "$num+5$"}, {"num": 3}, {"Total": 8}),
     (["Zoom", "$num*2$"], {"num": 3}, ["Zoom", 6]),
     (["Zoom", "$num*2$"], {"num": 1}, ["Zoom", 2]),
+    (["Zoom", "$ num*2 $"], {"num": 1}, ["Zoom", 2]),
 ]
 
 

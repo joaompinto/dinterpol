@@ -59,6 +59,7 @@ class Template(object):
     def f_string_compile(self, tokens):
         token_type, token_text = tokens[0]
         if len(tokens) == 1 and tokens[0][0] == DYNAMIC:
+            token_text = token_text.strip()
             code = compile(token_text, filename='Expression: "%s"' % token_text, mode='eval')
             return code
         f_string = ''
@@ -66,6 +67,7 @@ class Template(object):
             if token_type == LITERAL:
                 f_string += '"%s"' % token_text
             else:
+                token_text = token_text.strip()
                 token_text = token_text.replace('{', '{{')
                 token_text = token_text.replace('}', '}}')
                 f_string += 'f"{%s}"' % token_text
@@ -79,6 +81,13 @@ class Template(object):
         return self.template
 
     def _render_eval(self, mapping):
+
+        # "_" can be used to refer to the mapping value
+        if isinstance(mapping, dict):
+            new_mapping = {**mapping, **{"_": mapping}}
+            mapping = new_mapping
+        else:
+            mapping = {"_": mapping}
         container, key, f_string_code = self._dynamic_elements[0]
 
         if container is None:   # Container is none
