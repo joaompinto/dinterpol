@@ -1,11 +1,7 @@
-from collections import ChainMap as _ChainMap
 
 LITERAL = False
 DYNAMIC = True
 
-INDEX_CODE  = 0
-INDEX_KEY   = 1
-VALUE_CODE  = 2
 
 class Template(object):
     """ A template class that can be used to produce values, strings, or structured objects """
@@ -25,49 +21,71 @@ class Template(object):
             Template('My hat is $color.upper()$').render(color='red)    # 'My hat is RED'
             Template({'color' = '$color$'}).render(color='blue)         # {'color': 'blue'}
         """
-        self._dynamic_elements = []
+        self.template = template
         self._build_dynamic_elements(template)
 
         # If there are no dynamic elements simply return he current element
-        if len(self._dynamic_elements) == 0:
+        if len(self._dynamic_elements) > 0:
+            self._render = self._render_eval
             return
 
-    def _build_dynamic_elements(self, template, path=[]):
+    def _build_dynamic_elements(self, element, container=None, key=None):
         """
         """
-        if isinstance(template, str):
-            tokens = self.str2tokens(template)
+        if container is None:
+            self._dynamic_elements = []
+        if element == "":
+            return
+        if isinstance(element, str):
+            tokens = self.str2tokens(element)
+            token_type, token_text = tokens[0]
+            f_string_code = self.f_string_compile(tokens)
             # Single token
-            if len(tokens) == 1:
-                token_type, token_text = tokens[0]
-                if token_type == LITERAL:
-                    pass
-                else:
-                    return compile(token_text, filename='<stdin>', mode='eval')
+            if len(tokens) == 1 and token_type == LITERAL:
+                    # Use text_token because element may contain escaped chars
+                    if container:
+                        container[key] = token_text
+                    else:
+                        self.template = token_text
+            else:
+                self._dynamic_elements.append((container, key, f_string_code))
+        elif isinstance(element, list):
+            for key, value in enumerate(element):
+                self._build_dynamic_elements(value, element, key)
+        elif isinstance(element, dict):
+            for key, value in element.items():
+                self._build_dynamic_elements(value, element, key)
 
-        return 0, template
+    def f_string_compile(self, tokens):
+        token_type, token_text = tokens[0]
+        if len(tokens) == 1 and tokens[0][0] == DYNAMIC:
+            code = compile(token_text, filename='Expression: "%s"' % token_text, mode='eval')
+            return code
+        f_string = ''
+        for token_type, token_text in tokens:
+            if token_type == LITERAL:
+                f_string += '"%s"' % token_text
+            else:
+                token_text = token_text.replace('{', '{{')
+                token_text = token_text.replace('}', '}}')
+                f_string += 'f"{%s}"' % token_text
+        code = compile(f_string, filename='Expression: "%s"' % token_text, mode='eval')
+        return code
 
-    def render(*args, **kws):
-        if not args:
-            raise TypeError("descriptor 'render' of 'Template' object "
-                            "needs an argument")
-        self, *args = args  # allow the "self" keyword be passed
-        if len(args) > 1:
-            raise TypeError('Too many positional arguments')
-        if not args:
-            mapping = kws
-        elif kws:
-            mapping = _ChainMap(kws, args[0])
-        else:
-            mapping = None
-
+    def render(self, mapping):
         return self._render(mapping)
 
     def _render(self, mapping):
         return self.template
 
     def _render_eval(self, mapping):
-        return eval(self.template, mapping)
+        container, key, f_string_code = self._dynamic_elements[0]
+
+        if container is None:   # Container is none
+            return eval(f_string_code, mapping)
+        for container, key, f_string_code in self._dynamic_elements:
+            container[key] = eval(f_string_code, mapping)
+        return self.template
 
     @staticmethod
     def str2tokens(text):

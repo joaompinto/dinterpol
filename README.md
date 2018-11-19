@@ -19,7 +19,8 @@ When dealing with structured data types like dictionaries, or data formats like 
 Usage example:
 
 ```python
-from dinterpol import Interpolation
+from dinterpol import Template
+
 data = {
     "product": "pie",
     "quantity": 33,
@@ -27,18 +28,17 @@ data = {
 }
 
 # simple key interpolation for string generation
-Interpolation("We have $quantity$ $product$(s)").render(data)
-"We have 33 pie(s)"
+Template("We have $quantity$ $product$(s)").render(data)
+'We have 33 pie(s)'
 
 # python expression for string generation, expression result concatnated with string
-Interpolation("Total price is $quantity * product$").render(data)
-"Total price is 426"
+Template("Total price is $quantity * price$").render(data)
+'Total price is 426'
 
 # python expression for dict generation, type inferred directly from expression's eval()
-Interpolation({ "total": "$quantity * product$"}).render(data)
-{ "total": 426 }
+Template({ "total": "$quantity * price$"}).render(data)
+{'total': 426}
 ```
-
 
 ## Code of Conduct
 
