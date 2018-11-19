@@ -6,6 +6,7 @@ template_test_list = [  # NOQA: W605
     ("Plain value with \$ escaped", {}, "Plain value with $ escaped"),
     ("\$Plain value with escaped", {}, "$Plain value with escaped"),
     ("Plain value with escaped\$", {}, "Plain value with escaped$"),
+    ("$num *2 $", {"num": 3}, 6),
 ]
 
 
@@ -20,4 +21,4 @@ def test_unbalanced():
 
 def test_template():
     for template, mapping, expected_result in template_test_list:
-        assert(Template(template).substitute(mapping) == expected_result)
+        assert(Template(template).substitute(**mapping) == expected_result)
