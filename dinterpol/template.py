@@ -123,6 +123,6 @@ class Template(object):
             raise ValueError("Unbalanced dynamic expression '$' on value", text)
 
         # Filter out void values
-        tokens = [t for t in tokens if t[1] is not ""]
+        tokens = [t for t in tokens if t[1] != ""]
 
         return tokens
