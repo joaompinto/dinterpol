@@ -2,6 +2,8 @@
     "python.linting.pylintEnabled": false,
     "cSpell.words": [
         "dinterpol",
+        "gmail",
+        "joão",
         "noqa"
     ],
 }

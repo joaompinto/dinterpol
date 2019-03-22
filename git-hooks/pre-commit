@@ -1,7 +1,6 @@
 #!/bin/sh
 set -eu
 
-black
-code
+black .
 
 tox
