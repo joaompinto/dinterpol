@@ -85,8 +85,8 @@ class Template(object):
 
         # "_" can be used to refer to the mapping value
         if isinstance(mapping, dict):
-            mapping["_"] = mapping
-            mapping["_ctx"] = ctx_mapping
+            new_mapping = {**mapping, **{"_": mapping}, "_ctx": ctx_mapping}
+            mapping = new_mapping
         else:
             mapping = {"_": mapping, "_ctx": ctx_mapping}
         container, key, f_string_code = self._dynamic_elements[0]
