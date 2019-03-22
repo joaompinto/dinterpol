@@ -30,3 +30,10 @@ def test_template():
     for template, mapping, expected_result in template_test_list:
         print("Testing", template, mapping, expected_result)
         assert Template(template).render(mapping) == expected_result
+
+
+def test_context():
+    template = "$_$$_ctx['word']$"
+    mapping = ""
+    mapping_ctx = {"word": "something"}
+    assert Template(template).render(mapping, mapping_ctx) == "something"
