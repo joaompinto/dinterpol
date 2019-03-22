@@ -1,7 +1,7 @@
 from dinterpol import Template
 
 template_test_list = [  # NOQA: W605
-    ("", {}, ""),   # NOQA: W605
+    ("", {}, ""),  # NOQA: W605
     ("Plain value", {}, "Plain value"),
     ("Plain value with \$ escaped", {}, "Plain value with $ escaped"),
     ("\$Plain value with escaped", {}, "$Plain value with escaped"),
@@ -19,7 +19,7 @@ template_test_list = [  # NOQA: W605
 
 def test_unbalanced():
     try:
-        assert(Template("This is $ not ok").substitute())
+        assert Template("This is $ not ok").substitute()
     except ValueError:
         pass
     else:
@@ -29,4 +29,4 @@ def test_unbalanced():
 def test_template():
     for template, mapping, expected_result in template_test_list:
         print("Testing", template, mapping, expected_result)
-        assert(Template(template).render(mapping) == expected_result)
+        assert Template(template).render(mapping) == expected_result

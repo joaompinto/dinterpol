@@ -1,4 +1,3 @@
-
 LITERAL = False
 DYNAMIC = True
 
@@ -60,18 +59,20 @@ class Template(object):
         token_type, token_text = tokens[0]
         if len(tokens) == 1 and tokens[0][0] == DYNAMIC:
             token_text = token_text.strip()
-            code = compile(token_text, filename='Expression: "%s"' % token_text, mode='eval')
+            code = compile(
+                token_text, filename='Expression: "%s"' % token_text, mode="eval"
+            )
             return code
-        f_string = ''
+        f_string = ""
         for token_type, token_text in tokens:
             if token_type == LITERAL:
                 f_string += '"""%s"""' % token_text
             else:
                 token_text = token_text.strip()
-                token_text = token_text.replace('{', '{{')
-                token_text = token_text.replace('}', '}}')
+                token_text = token_text.replace("{", "{{")
+                token_text = token_text.replace("}", "}}")
                 f_string += 'f"{%s}"' % token_text
-        code = compile(f_string, filename='Expression: "%s"' % token_text, mode='eval')
+        code = compile(f_string, filename='Expression: "%s"' % token_text, mode="eval")
         return code
 
     def render(self, mapping):
@@ -90,7 +91,7 @@ class Template(object):
             mapping = {"_": mapping}
         container, key, f_string_code = self._dynamic_elements[0]
 
-        if container is None:   # Container is none
+        if container is None:  # Container is none
             return eval(f_string_code, mapping)
         for container, key, f_string_code in self._dynamic_elements:
             container[key] = eval(f_string_code, mapping)
@@ -105,16 +106,16 @@ class Template(object):
         #  List of tokens, where a token is a list: [is_dynamic, value]
         tokens = []
         token_type = LITERAL
-        token_text = ''
-        for part in text.split('$'):
+        token_text = ""
+        for part in text.split("$"):
             # Check if part ends with an escape char
-            if part and part[-1] == '\\':
-                token_text += part[:-1] + '$'
+            if part and part[-1] == "\\":
+                token_text += part[:-1] + "$"
                 continue
             token_text += part
             token_def = [token_type, token_text]
             tokens.append(token_def)
-            token_text = ''
+            token_text = ""
             token_type = token_type ^ True
 
         # If last element was dynamic
@@ -122,6 +123,6 @@ class Template(object):
             raise ValueError("Unbalanced dynamic expression '$' on value", text)
 
         # Filter out void values
-        tokens = [t for t in tokens if t[1] is not '']
+        tokens = [t for t in tokens if t[1] is not ""]
 
         return tokens
