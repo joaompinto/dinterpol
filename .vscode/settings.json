@@ -6,4 +6,8 @@
         "joão",
         "noqa"
     ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/*.egg-info": true,
+    }
 }
