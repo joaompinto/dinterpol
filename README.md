@@ -45,16 +45,16 @@ Everyone interacting in the dinterpol project's codebase, issue trackers, chat
 rooms, and mailing lists is expected to follow the [PyPA Code of Conduct].
 
 
-[appveyor-image]: https://img.shields.io/appveyor/ci/d0ugal/OpenPipe/master.svg
-[appveyor-link]: https://ci.appveyor.com/project/d0ugal/OpenPipe
-[codecov-image]: http://codecov.io/github/OpenPipe/dinterpol/coverage.svg?branch=master
-[codecov-link]: http://codecov.io/github/OpenPipe/dinterpol?branch=master
-[landscape-image]: https://landscape.io/github/OpenPipe/dinterpol/master/landscape.svg?style=flat
-[landscape-link]: https://landscape.io/github/OpenPipe/dinterpol/master
+[appveyor-image]: https://img.shields.io/appveyor/ci/d0ugal/Openpipe/master.svg
+[appveyor-link]: https://ci.appveyor.com/project/d0ugal/Openpipe
+[codecov-image]: http://codecov.io/github/Openpipe/dinterpol/coverage.svg?branch=master
+[codecov-link]: http://codecov.io/github/Openpipe/dinterpol?branch=master
+[landscape-image]: https://landscape.io/github/Openpipe/dinterpol/master/landscape.svg?style=flat
+[landscape-link]: https://landscape.io/github/Openpipe/dinterpol/master
 [pypi-v-image]: https://img.shields.io/pypi/v/dinterpol.svg
 [pypi-v-link]: https://pypi.org/project/dinterpol/
-[travis-image]: https://img.shields.io/travis/OpenPipe/dinterpol/master.svg
-[travis-link]: https://travis-ci.org/OpenPipe/dinterpol
+[travis-image]: https://img.shields.io/travis/Openpipe/dinterpol/master.svg
+[travis-link]: https://travis-ci.org/Openpipe/dinterpol
 
-[dinterpol]: https://dinterpol.OpenPipe.org
+[dinterpol]: https://dinterpol.Openpipe.org
 [PyPA Code of Conduct]: https://www.pypa.io/en/latest/code-of-conduct/
