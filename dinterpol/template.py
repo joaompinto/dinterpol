@@ -75,20 +75,20 @@ class Template(object):
         code = compile(f_string, filename='Expression: "%s"' % token_text, mode="eval")
         return code
 
-    def render(self, mapping, ctx_mapping=None):
-        return self._render(mapping, ctx_mapping)
+    def render(self, mapping, tag=None):
+        return self._render(mapping, tag)
 
-    def _render(self, mapping, ctx_mapping):
+    def _render(self, mapping, tag):
         return self.template
 
-    def _render_eval(self, mapping, ctx_mapping):
+    def _render_eval(self, mapping, tag):
 
         # "_" can be used to refer to the mapping value
         if isinstance(mapping, dict):
-            new_mapping = {**mapping, **{"_": mapping}, "_ctx": ctx_mapping}
+            new_mapping = {**mapping, **{"_": mapping}, "_tag": tag}
             mapping = new_mapping
         else:
-            mapping = {"_": mapping, "_ctx": ctx_mapping}
+            mapping = {"_": mapping, "_tag": tag}
         container, key, f_string_code = self._dynamic_elements[0]
 
         if container is None:  # Container is none

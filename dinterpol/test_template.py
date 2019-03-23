@@ -32,8 +32,8 @@ def test_template():
         assert Template(template).render(mapping) == expected_result
 
 
-def test_context():
-    template = "$_$$_ctx['word']$"
+def test_tag():
+    template = "$_$$_tag['word']$"
     mapping = ""
-    mapping_ctx = {"word": "something"}
-    assert Template(template).render(mapping, mapping_ctx) == "something"
+    mapping_tag = {"word": "something"}
+    assert Template(template).render(mapping, mapping_tag) == "something"
