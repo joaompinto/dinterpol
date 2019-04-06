@@ -1,3 +1,5 @@
+from .attr2key import attr2key
+
 LITERAL = False
 DYNAMIC = True
 
@@ -59,6 +61,7 @@ class Template(object):
         token_type, token_text = tokens[0]
         if len(tokens) == 1 and tokens[0][0] == DYNAMIC:
             token_text = token_text.strip()
+            token_text = attr2key(token_text)
             code = compile(
                 token_text, filename='Expression: "%s"' % token_text, mode="eval"
             )

@@ -24,6 +24,7 @@ data = {
     "product": "pie",
     "quantity": 33,
     "price": 14,
+    "details": { "size": 10, "flavour": "orange"}
 }
 
 # simple key interpolation for string generation
@@ -37,7 +38,13 @@ Template("Total price is $quantity * price$").render(data)
 # python expression for dict generation, type inferred directly from expression's eval()
 Template({ "total": "$quantity * price$"}).render(data)
 {'total': 426}
+
+# Use attribute style references for key access
+Template("$details.size$").render(data)
+10
+
 ```
+
 
 ## Code of Conduct
 

@@ -1,6 +1,8 @@
 from dinterpol import Template
 
-template_test_list = [  # NOQA: W605
+
+# Template, input item, expected result
+template_test_list = [
     ("", {}, ""),  # NOQA: W605
     ("Plain value", {}, "Plain value"),
     ("Plain value with \$ escaped", {}, "Plain value with $ escaped"),
@@ -14,6 +16,8 @@ template_test_list = [  # NOQA: W605
     (["Zoom", "$num*2$"], {"num": 3}, ["Zoom", 6]),
     (["Zoom", "$num*2$"], {"num": 1}, ["Zoom", 2]),
     (["Zoom", "$ num*2 $"], {"num": 1}, ["Zoom", 2]),
+    (["Zoom", "$ num*2 $"], {"num": 1}, ["Zoom", 2]),
+    ("$a.b$", {"a": {"b": "c"}}, "c"),
 ]
 
 
