@@ -74,7 +74,10 @@ class Template(object):
                 token_text = token_text.strip()
                 token_text = token_text.replace("{", "{{")
                 token_text = token_text.replace("}", "}}")
-                f_string += 'f"{%s}"' % token_text
+                token_text = token_text.replace("'", '"')
+                token_text = attr2key(token_text)
+
+                f_string += "f'{%s}'" % token_text
         code = compile(f_string, filename='Expression: "%s"' % token_text, mode="eval")
         return code
 
