@@ -1,5 +1,5 @@
 __title__ = "dinterpol"
-__version__ = "0.3.2"
+__version__ = "0.3.3"
 __summary__ = "data interpolation templating engine"
 __uri__ = "https://github.com/Openpipe/dinterpol"
 __author__ = "João Pinto"
