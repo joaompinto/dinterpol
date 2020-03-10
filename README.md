@@ -28,15 +28,15 @@ data = {
 }
 
 # simple key interpolation for string generation
-Template("We have $quantity$ $product$(s)").render(data)
+Template("We have {quantity} {quantity} pie(s)").render(data)
 'We have 33 pie(s)'
 
 # python expression for string generation, expression result concatnated with string
-Template("Total price is $quantity * price$").render(data)
+Template("Total price is {quantity * price}").render(data)
 'Total price is 426'
 
 # python expression for dict generation, type inferred directly from expression's eval()
-Template({ "total": "$quantity * price$"}).render(data)
+Template({ "total": "{quantity * price}"}).render(data)
 {'total': 426}
 
 # Use attribute style references for key access
@@ -44,7 +44,6 @@ Template("$details.size$").render(data)
 10
 
 ```
-
 
 ## Code of Conduct
 

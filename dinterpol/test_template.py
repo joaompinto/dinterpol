@@ -5,25 +5,20 @@ from dinterpol import Template
 template_test_list = [
     ("", {}, ""),  # NOQA: W605
     ("Plain value", {}, "Plain value"),
-    ("Plain value with \$ escaped", {}, "Plain value with $ escaped"),
-    ("\$Plain value with escaped", {}, "$Plain value with escaped"),
-    ("Plain value with escaped\$", {}, "Plain value with escaped$"),
-    ("$num *2$", {"num": 3}, 6),
-    ("Plain value with escaped\$", {}, "Plain value with escaped$"),
-    ("Total=$num * 2$", {"num": 3}, "Total=6"),
-    ({"Total": "$num*2$"}, {"num": 3}, {"Total": 6}),
-    ({"Total": "$num+5$"}, {"num": 3}, {"Total": 8}),
-    (["Zoom", "$num*2$"], {"num": 3}, ["Zoom", 6]),
-    (["Zoom", "$num*2$"], {"num": 1}, ["Zoom", 2]),
-    (["Zoom", "$ num*2 $"], {"num": 1}, ["Zoom", 2]),
-    (["Zoom", "$ num*2 $"], {"num": 1}, ["Zoom", 2]),
-    ("$a.b$", {"a": {"b": "c"}}, "c"),
+    ("Plain value with \{ escaped", {}, "Plain value with { escaped"),
+    ("\{Plain value with escaped", {}, "{Plain value with escaped"),
+    ("Plain value with escaped\}", {}, "Plain value with escaped}"),
+    ("{num * 2}", {"num": 3}, 6),
+    ("Total={num * 2}", {"num": 3}, "Total=6"),
+    ({"Total": "{num*2}"}, {"num": 3}, {"Total": 6}),
+    ({"Total": "{num+5}"}, {"num": 3}, {"Total": 8}),
+    ("{a.b}", {"a": {"b": "c"}}, "c"),
 ]
 
 
 def test_unbalanced():
     try:
-        assert Template("This is $ not ok").substitute()
+        assert Template("This is { not ok").render({})
     except ValueError:
         pass
     else:

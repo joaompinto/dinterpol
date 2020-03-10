@@ -73,3 +73,4 @@ target/
 
 # gh-pages publishing
 site/
+.vscode/

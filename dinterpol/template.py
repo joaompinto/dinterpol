@@ -1,7 +1,5 @@
+from enclosed import Parser, TokenType
 from .attr2key import attr2key
-
-LITERAL = False
-DYNAMIC = True
 
 
 class Template(object):
@@ -33,15 +31,16 @@ class Template(object):
     def _build_dynamic_elements(self, element, container=None, key=None):
         """
         """
+        parser = Parser()
         if container is None:
             self._dynamic_elements = []
         if element == "":
             return
         if isinstance(element, str):
-            tokens = self.str2tokens(element)
-            token_type, token_text = tokens[0]
+            tokens = parser.tokenize(element)
+            token_type, token_pos, token_text = tokens[0]
             # Single token
-            if len(tokens) == 1 and token_type == LITERAL:
+            if len(tokens) == 1 and token_type == TokenType.NOT_ENCLOSED:
                 # Use text_token because element may contain escaped chars
                 if container:
                     container[key] = token_text
@@ -58,8 +57,8 @@ class Template(object):
                 self._build_dynamic_elements(value, element, key)
 
     def f_string_compile(self, tokens):
-        token_type, token_text = tokens[0]
-        if len(tokens) == 1 and tokens[0][0] == DYNAMIC:
+        token_type, token_pos, token_text = tokens[0]
+        if len(tokens) == 1 and tokens[0][0] == TokenType.ENCLOSED:
             token_text = token_text.strip()
             token_text = attr2key(token_text)
             code = compile(
@@ -67,8 +66,8 @@ class Template(object):
             )
             return code
         f_string = ""
-        for token_type, token_text in tokens:
-            if token_type == LITERAL:
+        for token_type, token_pos, token_text in tokens:
+            if token_type == TokenType.NOT_ENCLOSED:
                 f_string += '"""%s"""' % token_text
             else:
                 token_text = token_text.strip()
@@ -95,33 +94,3 @@ class Template(object):
         for container, key, f_string_code in self._dynamic_elements:
             container[key] = eval(f_string_code, mapping)
         return self.template
-
-    @staticmethod
-    def str2tokens(text):
-        """
-        This function splits a string into literal and "dynamic parts".
-        Where "dynamic parts" means any sequence of chars between 2 non escaped $ symbols
-        """
-        #  List of tokens, where a token is a list: [is_dynamic, value]
-        tokens = []
-        token_type = LITERAL
-        token_text = ""
-        for part in text.split("$"):
-            # Check if part ends with an escape char
-            if part and part[-1] == "\\":
-                token_text += part[:-1] + "$"
-                continue
-            token_text += part
-            token_def = [token_type, token_text]
-            tokens.append(token_def)
-            token_text = ""
-            token_type = token_type ^ True
-
-        # If last element was dynamic
-        if token_def[0] == DYNAMIC:
-            raise ValueError("Unbalanced dynamic expression '$' on value", text)
-
-        # Filter out void values
-        tokens = [t for t in tokens if t[1] != ""]
-
-        return tokens
