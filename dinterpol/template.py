@@ -5,7 +5,7 @@ from .attr2key import attr2key
 class Template(object):
     """ A template class that can be used to produce values, strings, or structured objects """
 
-    def __init__(self, template):
+    def __init__(self, template, attribute_convert=True):
         """
         Args:
             template (any): string or any iterable object used to produce a new string / object
@@ -20,6 +20,7 @@ class Template(object):
             Template('My hat is $color.upper()$').render(color='red)    # 'My hat is RED'
             Template({'color' = '$color$'}).render(color='blue)         # {'color': 'blue'}
         """
+        self.attribute_convert = attribute_convert
         self.template = template
         self._build_dynamic_elements(template)
 
@@ -60,7 +61,8 @@ class Template(object):
         token_type, token_pos, token_text = tokens[0]
         if len(tokens) == 1 and tokens[0][0] == TokenType.ENCLOSED:
             token_text = token_text.strip()
-            token_text = attr2key(token_text)
+            if self.attribute_convert:
+                token_text = attr2key(token_text)
             code = compile(
                 token_text, filename='Expression: "%s"' % token_text, mode="eval"
             )
