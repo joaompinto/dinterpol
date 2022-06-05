@@ -1,5 +1,5 @@
 from datetime import datetime
-from dinterpol import Template
+from . import Template
 
 
 def test_disable_attribute_convert():

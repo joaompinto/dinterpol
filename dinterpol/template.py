@@ -1,4 +1,4 @@
-from enclosed import Parser, TokenType
+from enclosed.parser import Parser, TokenType
 from .attr2key import attr2key
 
 
@@ -39,7 +39,7 @@ class Template(object):
             return
         if isinstance(element, str):
             tokens = parser.tokenize(element)
-            token_type, token_pos, token_text = tokens[0]
+            token_type, _, token_text = tokens[0]
             # Single token
             if len(tokens) == 1 and token_type == TokenType.NOT_ENCLOSED:
                 # Use text_token because element may contain escaped chars
@@ -58,17 +58,17 @@ class Template(object):
                 self._build_dynamic_elements(value, element, key)
 
     def f_string_compile(self, tokens):
-        token_type, token_pos, token_text = tokens[0]
+        token_type, _, token_text = tokens[0]
         if len(tokens) == 1 and tokens[0][0] == TokenType.ENCLOSED:
             token_text = token_text.strip()
             if self.attribute_convert:
                 token_text = attr2key(token_text)
             code = compile(
-                token_text, filename='Expression: "%s"' % token_text, mode="eval"
+                token_text, filename='<dinterpol expression: "%s">' % token_text, mode="eval"
             )
             return code
         f_string = ""
-        for token_type, token_pos, token_text in tokens:
+        for token_type, _, token_text in tokens:
             if token_type == TokenType.NOT_ENCLOSED:
                 f_string += '"""%s"""' % token_text
             else:
@@ -79,7 +79,7 @@ class Template(object):
                 token_text = attr2key(token_text)
 
                 f_string += "f'{%s}'" % token_text
-        code = compile(f_string, filename='Expression: "%s"' % token_text, mode="eval")
+        code = compile(f_string, filename='<dinterpol expression: "%s">' % token_text, mode="eval")
         return code
 
     def render(self, mapping):
